@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="國二學習島：把國二各學科與課本章節接成一張可探索的學習地圖。" />
+    <title>國二學習島｜The Study Index</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="回到國二學習島首頁">
+        <span class="brand-mark">S</span>
+        <span>
+          <strong>FUTURE STUDY</strong>
+          <small>國二學習島</small>
+        </span>
+      </a>
+      <nav class="primary-nav" aria-label="主要導覽">
+        <button class="nav-button is-active" data-view="overview">總覽</button>
+        <button class="nav-button" data-view="index">章節索引</button>
+        <button class="nav-button" data-view="journal">學習日誌</button>
+      </nav>
+      <div class="top-actions">
+        <button class="tiny-button" id="themeButton" title="切換明亮／夜航模式">◐ <span>夜航</span></button>
+        <button class="tiny-button" id="helpButton" title="開啟使用說明">? <span>說明</span></button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse-dot"></span> THE STUDY INDEX <span class="eyebrow-line"></span> 2026</div>
+          <h1>國二<br /><em>學習島</em></h1>
+          <p class="hero-lede">每一科都是一座島，<br />每個章節都是一盞可以靠岸的燈。</p>
+          <div class="hero-note"><span>↳</span> 點進一座島，選擇你的課本版本，開始探索。</div>
+        </div>
+        <div class="hero-signal" aria-label="學習島統計">
+          <span class="signal-number" id="heroProgress">00</span>
+          <span class="signal-label">已點亮章節</span>
+          <span class="signal-rule"></span>
+          <span class="signal-meta"><b id="todayMinutes">0</b> min 今日學習</span>
+        </div>
+      </section>
+
+      <section class="dashboard section-shell" aria-labelledby="mapTitle">
+        <div class="section-heading">
+          <div>
+            <div class="section-kicker">A MAP OF YOUR SEMESTER</div>
+            <h2 id="mapTitle">把學習，連起來。</h2>
+          </div>
+          <div class="heading-actions">
+            <label class="search-box" for="globalSearch">
+              <span>⌕</span>
+              <input id="globalSearch" type="search" placeholder="搜尋學科、版本、章節…" autocomplete="off" />
+            </label>
+            <button class="filter-button" id="filterButton">篩選 <span>⌄</span></button>
+          </div>
+        </div>
+
+        <div class="filter-tray" id="filterTray" hidden>
+          <span class="filter-label">顯示學習島</span>
+          <button class="chip is-selected" data-filter="all">全部 <b>8</b></button>
+          <button class="chip" data-filter="語文">語文</button>
+          <button class="chip" data-filter="數理">數理</button>
+          <button class="chip" data-filter="社會">社會</button>
+          <button class="chip" data-filter="生活">生活</button>
+        </div>
+
+        <div class="map-wrap">
+          <div class="map-meta map-meta-left"><span class="legend-dot"></span> 八年級上學期 · 可自由探索</div>
+          <div class="map-meta map-meta-right">LOCAL EDITION <span class="map-meta-divider"></span> v1.0</div>
+
+          <div class="island-map" id="islandMap" aria-label="國二學習島總覽">
+            <div class="constellation-line line-a" aria-hidden="true"></div>
+            <div class="constellation-line line-b" aria-hidden="true"></div>
+            <div class="constellation-line line-c" aria-hidden="true"></div>
+            <div class="constellation-line line-d" aria-hidden="true"></div>
+            <div class="constellation-line line-e" aria-hidden="true"></div>
+            <div class="map-ring ring-one" aria-hidden="true"></div>
+            <div class="map-ring ring-two" aria-hidden="true"></div>
+
+            <div class="map-center">
+              <div class="center-orbit orbit-one"></div>
+              <div class="center-orbit orbit-two"></div>
+              <div class="center-core">
+                <span class="center-label">GRADE 8</span>
+                <strong>學習<br />中樞</strong>
+                <span class="center-small">SELECT AN ISLAND</span>
+              </div>
+            </div>
+
+            <div id="islandCards"></div>
+            <div class="map-coordinates">25°02′N　121°33′E<br /><span>YOUR STUDY ARCHIPELAGO</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bottom-grid section-shell">
+        <article class="index-preview panel-card">
+          <div class="card-topline"><span>01 / INDEX</span><button class="text-button" data-view="index">查看全部 →</button></div>
+          <div class="index-preview-body">
+            <div>
+              <h3>今天可以靠岸的<br /><em>三個章節</em></h3>
+              <p>從最想弄懂的地方開始，不必一次走完全部地圖。</p>
+            </div>
+            <div class="next-chapters" id="nextChapters"></div>
+          </div>
+        </article>
+        <article class="journal-preview panel-card">
+          <div class="card-topline"><span>02 / DAILY LOG</span><button class="text-button" data-view="journal">打開日誌 →</button></div>
+          <div class="journal-preview-body">
+            <div class="journal-orbit"><span id="journalPercent">0%</span><small>今日<br />進度</small></div>
+            <div>
+              <h3>把今天的微小進度<br /><em>留在島上。</em></h3>
+              <p id="journalHint">勾選一個章節，就會留下你的第一筆航跡。</p>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+      <div class="drawer-scrim" data-close="detail"></div>
+      <div class="drawer-panel">
+        <div class="drawer-header" id="drawerHeader">
+          <div>
+            <div class="drawer-index" id="drawerIndex">ISLAND 01</div>
+            <h2 id="drawerTitle">國文島</h2>
+            <p id="drawerSubtitle">語文 · 阅读與表達</p>
+          </div>
+          <button class="close-button" data-close="detail" aria-label="關閉學科面板">×</button>
+        </div>
+        <div class="drawer-content">
+          <div class="drawer-intro" id="drawerIntro"></div>
+          <div class="version-row">
+            <label for="versionSelect">課本版本</label>
+            <select id="versionSelect"></select>
+          </div>
+          <div class="progress-summary">
+            <div><span>本島進度</span><strong id="drawerProgress">0%</strong></div>
+            <div class="progress-track"><span id="drawerProgressBar"></span></div>
+          </div>
+          <div class="chapter-heading"><span>CHAPTER ROUTE</span><small>勾選即儲存於本機</small></div>
+          <div class="chapter-list" id="chapterList"></div>
+          <div class="drawer-tip"><span>✦</span> 建議先選一個「今天要靠岸」的章節，完成後再回來標記進度。</div>
+        </div>
+      </div>
+    </aside>
+
+    <aside class="index-drawer" id="indexDrawer" aria-hidden="true">
+      <div class="drawer-scrim" data-close="index"></div>
+      <div class="index-panel drawer-panel">
+        <div class="drawer-header">
+          <div>
+            <div class="drawer-index">THE FULL INDEX</div>
+            <h2>章節索引</h2>
+            <p>依學科、版本找到你的下一站。</p>
+          </div>
+          <button class="close-button" data-close="index" aria-label="關閉章節索引">×</button>
+        </div>
+        <div class="index-toolbar">
+          <label class="search-box wide" for="indexSearch"><span>⌕</span><input id="indexSearch" type="search" placeholder="搜尋章節名稱…" /></label>
+          <div class="index-count"><strong id="indexCount">0</strong> 個結果</div>
+        </div>
+        <div class="full-index-list" id="fullIndexList"></div>
+      </div>
+    </aside>
+
+    <aside class="journal-drawer" id="journalDrawer" aria-hidden="true">
+      <div class="drawer-scrim" data-close="journal"></div>
+      <div class="journal-panel drawer-panel">
+        <div class="drawer-header">
+          <div>
+            <div class="drawer-index">CITY LOG / STUDY LOG</div>
+            <h2>學習日誌</h2>
+            <p>每一個完成，都會變成你的航跡。</p>
+          </div>
+          <button class="close-button" data-close="journal" aria-label="關閉學習日誌">×</button>
+        </div>
+        <div class="journal-stats">
+          <div class="journal-stat-main"><strong id="journalBigPercent">0%</strong><span>今日學習進度</span></div>
+          <div class="stat-stack"><span>已點亮</span><strong id="journalCheckedCount">0</strong><small>章節</small></div>
+          <div class="stat-stack"><span>總航點</span><strong id="journalTotalCount">0</strong><small>章節</small></div>
+        </div>
+        <div class="journal-map-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="journal-timeline" id="journalTimeline"></div>
+        <div class="journal-footer"><span class="pulse-dot"></span> 所有勾選進度只儲存在這台裝置上。</div>
+      </div>
+    </aside>
+
+    <div class="modal" id="helpModal" aria-hidden="true">
+      <div class="modal-scrim" data-close="help"></div>
+      <div class="help-card">
+        <button class="close-button" data-close="help" aria-label="關閉說明">×</button>
+        <div class="drawer-index">HOW TO EXPLORE</div>
+        <h2>三步，開始你的航行。</h2>
+        <div class="help-steps">
+          <div><span>01</span><p>點選一座學習島，先選擇學校使用的出版社版本。</p></div>
+          <div><span>02</span><p>打開章節節點，把今天想完成的航點勾起來。</p></div>
+          <div><span>03</span><p>到「學習日誌」回看進度；資料會保留在本機瀏覽器。</p></div>
+        </div>
+        <p class="help-footnote">目前內建的是國二上學期的示範章節架構；實際課本版本可依學校選用情況調整。</p>
+      </div>
+    </div>
+
+    <footer class="site-footer section-shell">
+      <span>國二學習島 / A LOCAL LEARNING ATLAS</span>
+      <span>DESIGNED FOR CURIOUS MINDS</span>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
